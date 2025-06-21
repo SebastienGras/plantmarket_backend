@@ -15,7 +15,7 @@
       "@types/*": ["types/*"],
       "@tests/*": ["tests/*"],
       "@middlewares/*": ["middlewares/*"],
-      "@utils/*": ["utils/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*", "vite.config.ts", "pgtyped.config.js"],

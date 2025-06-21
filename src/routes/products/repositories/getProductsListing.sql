@@ -5,15 +5,15 @@ SELECT
 FROM products p
 LEFT JOIN categories c ON p.category_id = c.id
 LEFT JOIN subcategories sc ON p.subcategory_id = sc.id
-WHERE p.actif = true
-  AND ($1::uuid IS NULL OR p.category_id = $1)
-  AND ($2::uuid IS NULL OR p.subcategory_id = $2)
-  AND ($3::numeric IS NULL OR p.price >= $3)
-  AND ($4::numeric IS NULL OR p.price <= $4)
+WHERE p.actif = $1::boolean
+  AND ($2::uuid IS NULL OR p.category_id = $2)
+  AND ($3::uuid IS NULL OR p.subcategory_id = $3)
+  AND ($4::numeric IS NULL OR p.price >= $4)
+  AND ($5::numeric IS NULL OR p.price <= $5)
   AND (
-    $5::text IS NULL
-    OR p.title ILIKE '%' || $5 || '%'
-    OR p.description ILIKE '%' || $5 || '%'
+    $6::text IS NULL
+    OR p.title ILIKE '%' || $6 || '%'
+    OR p.description ILIKE '%' || $6 || '%'
   );
 -- ORDER BY
 --   CASE

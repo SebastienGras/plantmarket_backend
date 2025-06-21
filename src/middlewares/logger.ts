@@ -17,7 +17,7 @@ export function logRequests(
   res.on("finish", () => {
     const duration = Date.now() - start;
 
-    if (res.statusCode >= 200 && res.statusCode < 300) {
+    if (res.statusCode >= 200 && res.statusCode < 400) {
       logger.info("✅ Response sent", {
         method: req.method,
         url: req.originalUrl,

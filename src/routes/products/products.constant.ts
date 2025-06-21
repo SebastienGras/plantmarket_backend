@@ -29,6 +29,7 @@ export const PRODUCT_UPDATE_FIELDS = [
 ] as const;
 
 export const PRODUCTS_SEARCH_FIELDS = [
+  "actif",
   "categoryId",
   "subcategoryId",
   "minPrice",

@@ -28,6 +28,10 @@ const updateProductBody = z.object({
 });
 
 const getProductsListingQuery = z.object({
+  actif: z
+    .union([z.string(), z.boolean()])
+    .optional()
+    .transform((val) => val === "true" || val === true),
   categoryId: z.string().min(1, "Category ID is required").optional(),
   subcategoryId: z.string().min(1, "Subcategory ID is required").optional(),
   minPrice: z
