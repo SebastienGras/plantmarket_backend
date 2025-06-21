@@ -60,7 +60,7 @@ const getProductsListingQuery = z.object({
     .optional(),
 });
 
-const updateProductsParams = z.object({
+const productIdParams = z.object({
   productId: z.string().min(1, "Product ID is required"),
 });
 
@@ -73,6 +73,6 @@ export {
   getProductsListingQuery,
   getUserProductsParams,
   updateProductBody,
-  updateProductsParams,
+  productIdParams,
 };
 export type AddProductBodyInput = z.infer<typeof addProductBody>;

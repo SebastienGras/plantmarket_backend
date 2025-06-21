@@ -104,6 +104,29 @@ export const updateProductService = async (
   return updatedProduct.rows[0];
 };
 
+export const getProductByIdService = async (
+  productId: string
+): Promise<PRODUCTS_CAMEL_WITH_CATEGORY_DTO> => {
+  logger.info("🔍 getProductByIdService called with productId:", {
+    productId,
+  });
+
+  const product = await safeQuery<PRODUCTS_CAMEL_WITH_CATEGORY_DTO>(
+    dal[PRODUCTS_DAL.getProductById],
+    [productId]
+  );
+  if (!product || !product.rows || product.rows.length === 0) {
+    logger.error("❌ Product not found:", {
+      productId,
+    });
+    throw new Error(PRODUCTS_ERRORS.PRODUCT_NOT_FOUND);
+  }
+  logger.info("✅ Product retrieved successfully:", {
+    product: product.rows[0],
+  });
+  return product.rows[0];
+};
+
 export const getProductsByUserIdService = async (
   userId: string
 ): Promise<PRODUCTS_CAMEL_WITH_CATEGORY_DTO[]> => {
