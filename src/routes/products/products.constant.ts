@@ -23,7 +23,7 @@ export const PRODUCT_UPDATE_FIELDS = [
   "description",
   "price",
   "categoryId",
-  "subCategoryId",
+  "subcategoryId",
   "stock",
   "actif",
 ] as const;

@@ -5,6 +5,7 @@ import { validateData } from "../../services/validation";
 
 import {
   addProductAction,
+  getProductByIdAction,
   getProductsByUserIdAction,
   getProductsListingAction,
   updateProductAction,
@@ -14,7 +15,7 @@ import {
   getProductsListingQuery,
   getUserProductsParams,
   updateProductBody,
-  updateProductsParams,
+  productIdParams,
 } from "./products.validator";
 
 const router = express.Router();
@@ -29,9 +30,10 @@ router
 
 router
   .route("/products/:productId")
+  .get(validateData({ params: productIdParams }), getProductByIdAction)
   .patch(
     requireAuth,
-    validateData({ body: updateProductBody, params: updateProductsParams }),
+    validateData({ body: updateProductBody, params: productIdParams }),
     updateProductAction
   );
 
