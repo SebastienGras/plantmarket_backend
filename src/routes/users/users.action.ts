@@ -45,7 +45,7 @@ export const updateUserByIdAction = async (
 
   try {
     const updatedUser = await updateUserByIdService(
-      req.userId!, // req.userId is guaranteed to be present due to auth middleware
+      req.userId!,
       req.params.id,
       req.body
     );

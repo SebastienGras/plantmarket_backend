@@ -1,7 +1,8 @@
 {
   "eslint.useFlatConfig": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.cjs": "explicit"
   },
   "editor.formatOnSave": true
 }

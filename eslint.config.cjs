@@ -24,7 +24,9 @@ module.exports = [
       import: importPlugin,
     },
     rules: {
-      // TypeScript strict rules
+      // Ajoute ceci dans "rules"
+      "no-inline-comments": "error",
+      "no-warning-comments": "error",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",

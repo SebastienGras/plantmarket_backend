@@ -12,10 +12,8 @@ import { Pool } from "pg";
 import { loadAllSQLFromRoutes } from "./dal";
 import { logger } from "./logger";
 
-// Load environment variables from .env file
 dotenv.config();
 
-// PostgreSQL connection pool configuration using environment variables
 const db = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -32,18 +30,15 @@ loadAllSQLFromRoutes();
  */
 async function verifyConnection(): Promise<void> {
   try {
-    // Attempt to acquire a client from the db
     const client = await db.connect();
     logger.info("✅ Connected to PostgreSQL database");
-    client.release(); // Release the client back to the db
+    client.release();
   } catch (error) {
     logger.error("❌ Error connecting to the database:", { error });
   }
 }
 
-// Immediately verify connection upon module load.
 verifyConnection();
 
-// Export the db to be used across the application.
 export default db;
-export type QueryResultRow = Record<string, unknown>; // Generic type for query result rows
+export type QueryResultRow = Record<string, unknown>;

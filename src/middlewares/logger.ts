@@ -1,5 +1,5 @@
-import { logger } from "@services/logger"; // ton instance pino
-import type { Request, Response, NextFunction } from "express";
+import { logger } from "@services/logger";
+import type { NextFunction, Request, Response } from "express";
 
 export function logRequests(
   req: Request,
