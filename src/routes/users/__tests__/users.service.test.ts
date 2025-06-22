@@ -16,7 +16,7 @@ describe("getUserByIdService", () => {
     });
 
     const user = await getUserByIdService("123");
-    expect(user).toEqual({ id: "1234", email: "test@example.com" });
+    expect(user).toEqual({ id: "123", email: "test@example.com" });
   });
 
   it("should throw USER_NOT_FOUND if user does not exist", async () => {

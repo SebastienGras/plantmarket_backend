@@ -11,9 +11,9 @@
     "copy-sql": "cpx \"src/routes/**/*.sql\" dist/routes",
     "migrate:up": "npx tsx src/services/migrate.ts up",
     "migrate:down": "npx tsx src/services/migrate.ts down",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test": "vitest run"
   },
   "dependencies": {
