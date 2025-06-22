@@ -14,16 +14,21 @@ jobs:
       - name: Checkout le code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          node-version: 20
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      - name: Installer les dépendances
-        run: npm install
-
-      - name: Lancer les tests
-        run: npm test
-
-      - name: Compiler le projet
-        run: npm run build
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@15.236.209.241 << EOF
+            cd /home/ubuntu/plantmarket_backend
+            git config --global user.name "github-actions"
+            git config --global user.email "sebastien.gras75@gmail.com"
+            git fetch origin main
+            git reset --hard origin/main
+            npm install
+            npm run build
+            pm2 reload api || pm2 start dist/index.js --name api
+            pm2 save
+          EOF

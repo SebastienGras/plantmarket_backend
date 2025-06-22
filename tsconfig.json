@@ -7,6 +7,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
+    "rootDir": "./",
     "baseUrl": "./src",
     "paths": {
       "@services/*": ["services/*"],
@@ -16,7 +17,8 @@
       "@tests/*": ["tests/*"],
       "@middlewares/*": ["middlewares/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+    "sourceMap": false
   },
   "include": ["src/**/*", "vite.config.ts", "pgtyped.config.js"],
   "exclude": ["node_modules", "**/*.spec.ts"]
