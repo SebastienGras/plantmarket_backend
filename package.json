@@ -13,8 +13,8 @@
     "migrate:down": "npx tsx src/services/migrate.ts down",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --fix",
-    "test": "vitest run",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "vitest run"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
