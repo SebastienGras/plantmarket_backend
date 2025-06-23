@@ -18,8 +18,8 @@ export type USER_CAMEL_DTO = {
   id: string;
   email: string;
   passwordHash: string;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   phoneNumber?: string;
   addressLine1?: string;
   addressLine2?: string;
