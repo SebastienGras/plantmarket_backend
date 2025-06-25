@@ -5,6 +5,7 @@ import { validateData } from "../../services/validation";
 
 import {
   addProductAction,
+  deleteProductAction,
   getProductByIdAction,
   getProductsByUserIdAction,
   getProductsListingAction,
@@ -14,8 +15,8 @@ import {
   addProductBody,
   getProductsListingQuery,
   getUserProductsParams,
-  updateProductBody,
   productIdParams,
+  updateProductBody,
 } from "./products.validator";
 
 const router = express.Router();
@@ -35,6 +36,11 @@ router
     requireAuth,
     validateData({ body: updateProductBody, params: productIdParams }),
     updateProductAction
+  )
+  .delete(
+    requireAuth,
+    validateData({ params: productIdParams }),
+    deleteProductAction
   );
 
 router

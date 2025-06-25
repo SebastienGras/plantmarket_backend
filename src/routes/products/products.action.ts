@@ -6,6 +6,7 @@ import type { Request, Response } from "express";
 import { PRODUCTS_ERRORS } from "./products.constant";
 import {
   addProductService,
+  deleteProductService,
   getProductByIdService,
   getProductsByUserIdService,
   getProductsListingService,
@@ -49,6 +50,45 @@ export const addProductAction = async (
     }
 
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const deleteProductAction = async (
+  req: AuthenticatedRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    logger.info("🔄 Deleting product for user:", {
+      productId: req.params.productId,
+      userId: req.userId,
+    });
+
+    await deleteProductService(req.userId!, req.params.productId);
+
+    logger.info("✅ Product deleted successfully:", {
+      productId: req.params.productId,
+    });
+
+    res.status(204);
+    return;
+  } catch (error) {
+    logger.error("❌ Error while deleting product:", {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
+    if (isErrorWithMessage(error, PRODUCTS_ERRORS.PRODUCT_NOT_FOUND)) {
+      res.status(404).json({ error: PRODUCTS_ERRORS.PRODUCT_NOT_FOUND });
+      return;
+    }
+
+    if (isErrorWithMessage(error, PRODUCTS_ERRORS.UNAUTHORIZED)) {
+      res.status(403).json({ error: PRODUCTS_ERRORS.UNAUTHORIZED });
+      return;
+    }
+
+    res.status(500).json({ message: "Internal Server Error" });
+    return;
   }
 };
 
