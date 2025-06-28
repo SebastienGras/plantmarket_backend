@@ -69,7 +69,7 @@ export const deleteProductAction = async (
       productId: req.params.productId,
     });
 
-    res.status(204);
+    res.status(200).json({});
     return;
   } catch (error) {
     logger.error("❌ Error while deleting product:", {
