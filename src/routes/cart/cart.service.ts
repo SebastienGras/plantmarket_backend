@@ -1,4 +1,4 @@
-import type { CART_CAMEL_DTO } from "@models/cart";
+import type { CART_CAMEL_DTO, CART_SUMMARY_CAMEL_DTO } from "@models/cart";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
 import { safeQuery } from "@services/query";
@@ -101,19 +101,24 @@ export const deleteItemFromCartService = async (
 
 export const getCartItemsByUserIdService = async (
   userId: string
-): Promise<CART_CAMEL_DTO[]> => {
+): Promise<CART_SUMMARY_CAMEL_DTO> => {
   logger.info("📦 getCartItemsByUserIdService called:", { userId });
 
-  const result = await safeQuery<CART_CAMEL_DTO>(
+  const result = await safeQuery<CART_SUMMARY_CAMEL_DTO>(
     dal[CART_DAL.getItemsByUserId],
     [userId]
   );
 
   if (!result?.rowCount || result.rowCount === 0) {
     logger.info("ℹ️ No items in cart for user:", { userId });
-    return [];
+    return {
+      userId,
+      cartId: "",
+      itemCount: 0,
+      totalPrice: 0,
+    };
   }
 
   logger.info("✅ Cart items retrieved:", result.rows);
-  return result.rows;
+  return result.rows[0];
 };

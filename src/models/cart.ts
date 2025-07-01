@@ -1,3 +1,5 @@
+import type { CamelCasedProperties } from "@services/query";
+
 export type CART_DTO = {
   id: string;
   user_id: string;
@@ -7,15 +9,13 @@ export type CART_DTO = {
   updated_at: Date;
 };
 
-export type CART_CAMEL_DTO = {
-  id: string;
-  userId: string;
-  productId: string;
-  quantity: number;
-  createdAt: Date;
-  updatedAt: Date;
+export type CART_CAMEL_DTO = CamelCasedProperties<CART_DTO>;
+
+export type CART_SUMMARY_DTO = {
+  user_id: string;
+  cart_id: string;
+  item_count: number;
+  total_price: number;
 };
 
-export type CART_WITH_CART_DTO = CART_CAMEL_DTO & {
-  cart: CART_CAMEL_DTO;
-};
+export type CART_SUMMARY_CAMEL_DTO = CamelCasedProperties<CART_SUMMARY_DTO>;

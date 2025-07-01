@@ -5,7 +5,7 @@ type CamelCase<S extends string> = S extends `${infer Head}_${infer Tail}`
   ? `${Head}${Capitalize<CamelCase<Tail>>}`
   : S;
 
-type CamelCasedProperties<T> = {
+export type CamelCasedProperties<T> = {
   [K in keyof T as K extends string ? CamelCase<K> : K]: T[K];
 };
 

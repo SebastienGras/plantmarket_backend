@@ -18,6 +18,7 @@ CREATE OR REPLACE VIEW user_cart_total AS
 SELECT
   u.id AS user_id,
   c.id AS cart_id,
+  SUM(ci.quantity) AS item_count,
   SUM(ci.quantity * p.price) AS total_price
 FROM users u
 JOIN carts c ON c.user_id = u.id AND c.is_checked_out = FALSE
