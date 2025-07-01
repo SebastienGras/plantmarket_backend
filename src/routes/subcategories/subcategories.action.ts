@@ -27,6 +27,6 @@ export const getSubcategoriesAction = async (
       return;
     }
 
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: SUBCATEGORIES_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };

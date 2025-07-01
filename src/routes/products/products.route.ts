@@ -3,14 +3,12 @@ import express from "express";
 
 import { validateData } from "../../services/validation";
 
-import {
-  addProductAction,
-  deleteProductAction,
-  getProductByIdAction,
-  getProductsByUserIdAction,
-  getProductsListingAction,
-  updateProductAction,
-} from "./products.action";
+import { addProductAction } from "./actions/addProduct";
+import { deleteProductAction } from "./actions/deleteProduct";
+import { getProductByIdAction } from "./actions/getProductById";
+import { getProductsByUserIdAction } from "./actions/getProductsByUserId";
+import { getProductsListingAction } from "./actions/getProductsListing";
+import { updateProductAction } from "./actions/updateProduct";
 import {
   addProductBody,
   getProductsListingQuery,

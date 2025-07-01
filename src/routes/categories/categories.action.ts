@@ -1,6 +1,7 @@
 import { logger } from "@services/logger";
 import type { Request, Response } from "express";
 
+import { CATEGORIES_ERRORS } from "./categories.constant";
 import { getCategoriesService } from "./categories.service";
 
 export const getCategoriesAction = async (
@@ -19,6 +20,6 @@ export const getCategoriesAction = async (
       stack: error instanceof Error ? error.stack : undefined,
     });
 
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: CATEGORIES_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };

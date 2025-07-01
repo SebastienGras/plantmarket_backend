@@ -16,6 +16,7 @@ export const PRODUCTS_ERRORS = {
   PRODUCT_NOT_DELETED: "Product not deleted",
   PRODUCT_CATEGORY_NOT_FOUND: "Product category not found",
   UNAUTHORIZED: "Unauthorized",
+  INTERNAL_SERVER_ERROR: "Internal server error",
 } as const;
 
 export const PRODUCT_UPDATE_FIELDS = [
