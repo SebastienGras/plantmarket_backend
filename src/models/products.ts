@@ -1,3 +1,5 @@
+import type { CamelCasedProperties } from "@services/query";
+
 export type PRODUCT_DTO = {
   id: string;
   title: string;
@@ -12,19 +14,7 @@ export type PRODUCT_DTO = {
   updatedAt: Date;
 };
 
-export type PRODUCT_CAMEL_DTO = {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  stock: number;
-  categoryId: string;
-  subcategoryId: string;
-  sellerId: string;
-  actif: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type PRODUCT_CAMEL_DTO = CamelCasedProperties<PRODUCT_DTO>;
 
 export type PRODUCTS_CAMEL_WITH_CATEGORY_DTO = PRODUCT_CAMEL_DTO & {
   categoryName: string;

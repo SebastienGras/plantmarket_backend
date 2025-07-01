@@ -1,34 +1,22 @@
+import type { CamelCasedProperties } from "@services/query";
+
 export type USER_DTO = {
   id: string;
   email: string;
-  passwordHash: string;
+  password_hash: string;
   firstname: string;
   lastname: string;
-  phoneNumber?: string;
-  addressLine1?: string;
-  addressLine2?: string;
+  phone_number?: string;
+  address_line1?: string;
+  address_line2?: string;
   city?: string;
   zipcode?: string;
   country?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
-export type USER_CAMEL_DTO = {
-  id: string;
-  email: string;
-  passwordHash: string;
-  firstname: string;
-  lastname: string;
-  phoneNumber?: string;
-  addressLine1?: string;
-  addressLine2?: string;
-  city?: string;
-  zipcode?: string;
-  country?: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type USER_CAMEL_DTO = CamelCasedProperties<USER_DTO>;
 
 export type USER_CAMEL_DTO_WITH_TOKEN = USER_CAMEL_DTO & {
   token: string;

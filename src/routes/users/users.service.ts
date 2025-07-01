@@ -1,4 +1,4 @@
-import type { USER_DTO } from "@models/users";
+import type { USER_CAMEL_DTO } from "@models/users";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
 import { safeQuery } from "@services/query";
@@ -6,10 +6,10 @@ import { partialUpdateForQuery } from "@utils/query";
 
 import { USER_UPDATE_FIELDS, USERS_DAL, USERS_ERRORS } from "./users.constant";
 
-const getUserByIdService = async (userId: string): Promise<USER_DTO> => {
+const getUserByIdService = async (userId: string): Promise<USER_CAMEL_DTO> => {
   logger.debug("getUserByIdService called with userId:", { userId });
 
-  const result = await safeQuery<USER_DTO>(dal[USERS_DAL.getUserById], [
+  const result = await safeQuery<USER_CAMEL_DTO>(dal[USERS_DAL.getUserById], [
     userId,
   ]);
 
@@ -22,8 +22,8 @@ const getUserByIdService = async (userId: string): Promise<USER_DTO> => {
 const updateUserByIdService = async (
   reqestUserId: string,
   userId: string,
-  updateData: Partial<USER_DTO>
-): Promise<USER_DTO> => {
+  updateData: Partial<USER_CAMEL_DTO>
+): Promise<USER_CAMEL_DTO> => {
   logger.info("updateUserByIdService called with :", {
     userId,
     updateData,
@@ -43,10 +43,10 @@ const updateUserByIdService = async (
     updateData
   );
 
-  const updatedUser = await safeQuery<USER_DTO>(dal[USERS_DAL.updateUserById], [
-    userId,
-    ...valuesToUpdate,
-  ]);
+  const updatedUser = await safeQuery<USER_CAMEL_DTO>(
+    dal[USERS_DAL.updateUserById],
+    [userId, ...valuesToUpdate]
+  );
 
   if (!updatedUser?.rowCount || updatedUser.rowCount === 0) {
     throw new Error(USERS_ERRORS.USER_NOT_FOUND);

@@ -1,4 +1,4 @@
-import type { SUBGATEGORIES_DTO } from "@models/subcategories";
+import type { SUBCATEGORIES_CAMEL_DTO } from "@models/subcategories";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
 import { safeQuery } from "@services/query";
@@ -10,10 +10,10 @@ import {
 
 export const getSubcategoriesByCategoryIdService = async (
   categoryId: string
-): Promise<SUBGATEGORIES_DTO[]> => {
+): Promise<SUBCATEGORIES_CAMEL_DTO[]> => {
   logger.info("🔍 getSubcategoriesByCategoryId called", { categoryId });
 
-  const subcategories = await safeQuery<SUBGATEGORIES_DTO>(
+  const subcategories = await safeQuery<SUBCATEGORIES_CAMEL_DTO>(
     dal[SUBCATEGORIES_DAL.getSubcategoriesByCategoryId],
     [categoryId]
   );
