@@ -6,9 +6,10 @@ export const CART_ERRORS = {
 };
 
 export const CART_DAL = {
-  addItem: "cart/addItemCart",
-  updateItem: "cart/updateItemCart",
-  deleteItem: "cart/deleteItemCart",
-  getItemsByUserId: "cart/getItemsCartByUserId",
+  addItem: "cart/addItem",
+  updateItem: "cart/updateItem",
+  deleteItem: "cart/deleteItem",
+  getItemsByUserId: "cart/getItemsByUserId",
+  getSummaryByUserId: "cart/getSummaryByUserId",
   getItemById: "cart/getItemCartById",
 };

@@ -1,11 +1,15 @@
-import type { CART_CAMEL_DTO, CART_SUMMARY_CAMEL_DTO } from "@models/cart";
+import type {
+  CART_CAMEL_DTO,
+  CART_ITEMS_CAMEL_DTO,
+  CART_SUMMARY_CAMEL_DTO,
+} from "@models/cart";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
 import { safeQuery } from "@services/query";
 
 import { CART_DAL, CART_ERRORS } from "./cart.constant";
 
-export const addItemToCartService = async (
+export const addItemService = async (
   userId: string,
   data: { productId: string; quantity: number }
 ): Promise<CART_CAMEL_DTO> => {
@@ -25,7 +29,7 @@ export const addItemToCartService = async (
   return result.rows[0];
 };
 
-export const updateCartItemService = async (
+export const updateCartService = async (
   userId: string,
   itemCartId: string,
   quantity: number
@@ -61,7 +65,7 @@ export const updateCartItemService = async (
   return updated.rows[0];
 };
 
-export const deleteItemFromCartService = async (
+export const deleteItemService = async (
   userId: string,
   itemCartId: string
 ): Promise<void> => {
@@ -88,13 +92,13 @@ export const deleteItemFromCartService = async (
   logger.info("✅ Cart item deleted successfully");
 };
 
-export const getCartItemsByUserIdService = async (
+export const getSummaryByUserIdService = async (
   userId: string
 ): Promise<CART_SUMMARY_CAMEL_DTO> => {
-  logger.info("📦 getCartItemsByUserIdService called:", { userId });
+  logger.info("📦 getSummaryByUserIdService called:", { userId });
 
   const result = await safeQuery<CART_SUMMARY_CAMEL_DTO>(
-    dal[CART_DAL.getItemsByUserId],
+    dal[CART_DAL.getSummaryByUserId],
     [userId]
   );
 
@@ -110,4 +114,23 @@ export const getCartItemsByUserIdService = async (
 
   logger.info("✅ Cart items retrieved:", result.rows);
   return result.rows[0];
+};
+
+export const getItemsByUserIdService = async (
+  userId: string
+): Promise<CART_ITEMS_CAMEL_DTO[]> => {
+  logger.info("📦 getItemsByUserIdService called:", { userId });
+
+  const result = await safeQuery<CART_ITEMS_CAMEL_DTO>(
+    dal[CART_DAL.getItemsByUserId],
+    [userId]
+  );
+
+  if (!result?.rowCount || result.rowCount === 0) {
+    logger.info("ℹ️ No items in cart for user:", { userId });
+    return [];
+  }
+
+  logger.info("✅ Cart items retrieved:", result.rows);
+  return result.rows;
 };

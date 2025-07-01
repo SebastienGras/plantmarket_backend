@@ -5,13 +5,14 @@ import type { Response } from "express";
 
 import { CART_ERRORS } from "./cart.constant";
 import {
-  addItemToCartService,
-  deleteItemFromCartService,
-  getCartItemsByUserIdService,
-  updateCartItemService,
+  addItemService,
+  deleteItemService,
+  getItemsByUserIdService,
+  getSummaryByUserIdService,
+  updateCartService,
 } from "./cart.service";
 
-export const addItemCartAction = async (
+export const addItemAction = async (
   req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
@@ -21,7 +22,7 @@ export const addItemCartAction = async (
   });
 
   try {
-    const cartItem = await addItemToCartService(req.userId!, req.body);
+    const cartItem = await addItemService(req.userId!, req.body);
     logger.info("✅ Item added to cart:", cartItem);
     res.status(201).json(cartItem);
   } catch (error) {
@@ -39,7 +40,7 @@ export const addItemCartAction = async (
   }
 };
 
-export const updateItemCartAction = async (
+export const updateItemAction = async (
   req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
@@ -50,7 +51,7 @@ export const updateItemCartAction = async (
   });
 
   try {
-    const updatedItem = await updateCartItemService(
+    const updatedItem = await updateCartService(
       req.userId!,
       req.params.itemCartId,
       req.body.quantity
@@ -72,7 +73,7 @@ export const updateItemCartAction = async (
   }
 };
 
-export const deleteItemCartAction = async (
+export const deleteItemAction = async (
   req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
@@ -82,7 +83,7 @@ export const deleteItemCartAction = async (
   });
 
   try {
-    await deleteItemFromCartService(req.userId!, req.params.itemCartId);
+    await deleteItemService(req.userId!, req.params.itemCartId);
 
     logger.info("✅ Cart item deleted:", { itemCartId: req.params.itemCartId });
     res.status(204).send();
@@ -100,7 +101,28 @@ export const deleteItemCartAction = async (
   }
 };
 
-export const getItemsCartByUserIdAction = async (
+export const getSummaryByUserIdAction = async (
+  req: AuthenticatedRequest,
+  res: Response
+): Promise<void> => {
+  logger.info("📦 Fetching cart summary for user:", {
+    userId: req.params.userId,
+  });
+
+  try {
+    const cartItems = await getSummaryByUserIdService(req.params.userId);
+    logger.info("✅ Cart items retrieved:", cartItems);
+    res.json(cartItems);
+  } catch (error) {
+    logger.error("❌ Failed to fetch cart items:", {
+      message: error instanceof Error ? error.message : String(error),
+    });
+
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getItemsByUserIdAction = async (
   req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
@@ -109,7 +131,7 @@ export const getItemsCartByUserIdAction = async (
   });
 
   try {
-    const cartItems = await getCartItemsByUserIdService(req.params.userId);
+    const cartItems = await getItemsByUserIdService(req.params.userId);
     logger.info("✅ Cart items retrieved:", cartItems);
     res.json(cartItems);
   } catch (error) {

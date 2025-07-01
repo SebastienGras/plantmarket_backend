@@ -4,10 +4,11 @@ import express from "express";
 import { validateData } from "../../services/validation";
 
 import {
-  addItemCartAction,
-  deleteItemCartAction,
-  getItemsCartByUserIdAction,
-  updateItemCartAction,
+  addItemAction,
+  deleteItemAction,
+  getItemsByUserIdAction,
+  getSummaryByUserIdAction,
+  updateItemAction,
 } from "./cart.action";
 import {
   addItemCartBody,
@@ -20,23 +21,27 @@ const router = express.Router();
 
 router
   .route("/cart")
-  .post(
-    requireAuth,
-    validateData({ body: addItemCartBody }),
-    addItemCartAction
-  );
+  .post(requireAuth, validateData({ body: addItemCartBody }), addItemAction);
 
 router
   .route("/cart/:itemCartId")
   .patch(
     requireAuth,
     validateData({ body: updateItemCartBody, params: itemCartIdParams }),
-    updateItemCartAction
+    updateItemAction
   )
   .delete(
     requireAuth,
     validateData({ params: itemCartIdParams }),
-    deleteItemCartAction
+    deleteItemAction
+  );
+
+router
+  .route("/cart/summary/:userId")
+  .get(
+    requireAuth,
+    validateData({ params: getUserCartParams }),
+    getSummaryByUserIdAction
   );
 
 router
@@ -44,7 +49,7 @@ router
   .get(
     requireAuth,
     validateData({ params: getUserCartParams }),
-    getItemsCartByUserIdAction
+    getItemsByUserIdAction
   );
 
 export { router };

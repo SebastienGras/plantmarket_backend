@@ -19,3 +19,16 @@ export type CART_SUMMARY_DTO = {
 };
 
 export type CART_SUMMARY_CAMEL_DTO = CamelCasedProperties<CART_SUMMARY_DTO>;
+
+export type CART_ITEMS_DTO = {
+  product_id: string;
+  quantity: number;
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  category_name: string;
+  subcategory_name: string;
+};
+
+export type CART_ITEMS_CAMEL_DTO = CamelCasedProperties<CART_ITEMS_DTO>;
