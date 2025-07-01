@@ -3,18 +3,7 @@ import { dal } from "@services/dal";
 import { logger } from "@services/logger";
 import { safeQuery } from "@services/query";
 
-const CART_ERRORS = {
-  ITEM_NOT_FOUND: "Cart item not found",
-  PRODUCT_NOT_FOUND: "Product not found",
-};
-
-const CART_DAL = {
-  addItem: "cart/addItemCart",
-  updateItem: "cart/updateItemCart",
-  deleteItem: "cart/deleteItemCart",
-  getItemsByUserId: "cart/getItemsCartByUserId",
-  getItemById: "cart/getItemCartById",
-};
+import { CART_DAL, CART_ERRORS } from "./cart.constant";
 
 export const addItemToCartService = async (
   userId: string,

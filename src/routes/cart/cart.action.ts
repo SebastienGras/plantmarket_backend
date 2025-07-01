@@ -3,19 +3,13 @@ import { logger } from "@services/logger";
 import { isErrorWithMessage } from "@utils/error";
 import type { Response } from "express";
 
+import { CART_ERRORS } from "./cart.constant";
 import {
   addItemToCartService,
   deleteItemFromCartService,
   getCartItemsByUserIdService,
   updateCartItemService,
 } from "./cart.service";
-
-const CART_ERRORS = {
-  ITEM_NOT_FOUND: "Cart item not found",
-  PRODUCT_NOT_FOUND: "Product not found",
-  UNAUTHORIZED: "Unauthorized action",
-  UNKNOWN: "Unknown cart error",
-};
 
 export const addItemCartAction = async (
   req: AuthenticatedRequest,
