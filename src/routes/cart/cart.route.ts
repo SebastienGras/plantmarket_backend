@@ -24,10 +24,10 @@ router
   .post(requireAuth, validateData({ body: addItemCartBody }), addItemAction);
 
 router
-  .route("/cart/:itemCartId")
+  .route("/cart/:productId")
   .patch(
     requireAuth,
-    validateData({ body: updateItemCartBody, params: itemCartIdParams }),
+    validateData({ body: updateItemCartBody }),
     updateItemAction
   )
   .delete(

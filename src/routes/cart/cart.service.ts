@@ -2,6 +2,7 @@ import type {
   CART_CAMEL_DTO,
   CART_ITEMS_CAMEL_DTO,
   CART_SUMMARY_CAMEL_DTO,
+  CART_UPDATED_CAMEL_DTO,
 } from "@models/cart";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
@@ -31,38 +32,26 @@ export const addItemService = async (
 
 export const updateCartService = async (
   userId: string,
-  itemCartId: string,
+  productId: string,
   quantity: number
-): Promise<CART_CAMEL_DTO> => {
+): Promise<CART_UPDATED_CAMEL_DTO[]> => {
   logger.info("📝 updateCartItemService called:", {
     userId,
-    itemCartId,
+    productId,
     quantity,
   });
 
-  const item = await safeQuery<CART_CAMEL_DTO>(dal[CART_DAL.getItemById], [
-    itemCartId,
-  ]);
-
-  if (!item?.rowCount || item.rows.length === 0) {
-    throw new Error(CART_ERRORS.ITEM_NOT_FOUND);
-  }
-
-  if (item.rows[0].userId !== userId) {
-    throw new Error("Unauthorized");
-  }
-
-  const updated = await safeQuery<CART_CAMEL_DTO>(dal[CART_DAL.updateItem], [
-    itemCartId,
-    quantity,
-  ]);
+  const updated = await safeQuery<CART_UPDATED_CAMEL_DTO>(
+    dal[CART_DAL.updateItem],
+    [userId, productId, quantity]
+  );
 
   if (!updated?.rowCount || updated.rowCount === 0) {
     throw new Error(CART_ERRORS.ITEM_NOT_FOUND);
   }
 
   logger.info("✅ Cart item updated:", updated.rows[0]);
-  return updated.rows[0];
+  return updated.rows;
 };
 
 export const deleteItemService = async (
