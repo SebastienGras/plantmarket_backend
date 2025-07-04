@@ -1,6 +1,7 @@
 SELECT 
     ci.product_id, 
-    ci.quantity, 
+    ci.quantity,
+    ci.cart_id, 
     p.title, 
     p.description, 
     p.price,

@@ -31,27 +31,26 @@ export const addItemService = async (
 };
 
 export const updateCartService = async (
-  userId: string,
+  cartId: string,
   productId: string,
   quantity: number
-): Promise<CART_UPDATED_CAMEL_DTO[]> => {
+): Promise<CART_UPDATED_CAMEL_DTO> => {
   logger.info("📝 updateCartItemService called:", {
-    userId,
+    cartId,
     productId,
     quantity,
   });
 
   const updated = await safeQuery<CART_UPDATED_CAMEL_DTO>(
     dal[CART_DAL.updateItem],
-    [userId, productId, quantity]
+    [cartId, productId, quantity]
   );
 
   if (!updated?.rowCount || updated.rowCount === 0) {
     throw new Error(CART_ERRORS.ITEM_NOT_FOUND);
   }
-
   logger.info("✅ Cart item updated:", updated.rows[0]);
-  return updated.rows;
+  return updated.rows[0];
 };
 
 export const deleteItemService = async (

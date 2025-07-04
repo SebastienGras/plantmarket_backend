@@ -24,7 +24,7 @@ router
   .post(requireAuth, validateData({ body: addItemCartBody }), addItemAction);
 
 router
-  .route("/cart/:productId")
+  .route("/cart/:cartId/product/:productId")
   .patch(
     requireAuth,
     validateData({ body: updateItemCartBody }),

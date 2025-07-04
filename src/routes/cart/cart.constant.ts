@@ -3,6 +3,7 @@ export const CART_ERRORS = {
   PRODUCT_NOT_FOUND: "Product not found",
   UNAUTHORIZED: "Unauthorized action",
   UNKNOWN: "Unknown cart error",
+  INTERNAL_SERVER_ERROR: "Internal Server Error",
 };
 
 export const CART_DAL = {
