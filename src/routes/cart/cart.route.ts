@@ -12,8 +12,8 @@ import {
 } from "./cart.action";
 import {
   addItemCartBody,
+  deleteItemCartParams,
   getUserCartParams,
-  itemCartIdParams,
   updateItemCartBody,
   updateItemCartParams,
 } from "./cart.validator";
@@ -33,7 +33,7 @@ router
   )
   .delete(
     requireAuth,
-    validateData({ params: itemCartIdParams }),
+    validateData({ params: deleteItemCartParams }),
     deleteItemAction
   );
 

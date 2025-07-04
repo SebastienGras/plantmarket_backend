@@ -14,8 +14,9 @@ const updateItemCartBody = z.object({
   quantity: z.number().int().positive("Quantity must be a positive integer"),
 });
 
-const itemCartIdParams = z.object({
-  itemCartId: z.string().min(1, "Cart Item ID is required"),
+const deleteItemCartParams = z.object({
+  cartId: z.string().min(1, "Cart ID is required"),
+  productId: z.string().min(1, "Product ID is required"),
 });
 
 const getUserCartParams = z.object({
@@ -24,8 +25,8 @@ const getUserCartParams = z.object({
 
 export {
   addItemCartBody,
+  deleteItemCartParams,
   getUserCartParams,
-  itemCartIdParams,
   updateItemCartBody,
   updateItemCartParams,
 };
