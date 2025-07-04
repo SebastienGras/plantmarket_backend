@@ -13,4 +13,5 @@ export const CART_DAL = {
   getItemsByUserId: "cart/getItemsByUserId",
   getSummaryByUserId: "cart/getSummaryByUserId",
   getItemById: "cart/getItemCartById",
+  getCurrentCartByUserId: "cart/getCurrentCartByUserId",
 };

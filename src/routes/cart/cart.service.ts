@@ -31,6 +31,7 @@ export const addItemService = async (
 };
 
 export const updateCartService = async (
+  userId: string,
   cartId: string,
   productId: string,
   quantity: number
@@ -40,6 +41,21 @@ export const updateCartService = async (
     productId,
     quantity,
   });
+
+  // Si on ne faisait pas ça, n'importe quel utilisateur pourrait mettre à jour n'importe quel panier
+  const currentCart = await safeQuery<CART_CAMEL_DTO>(
+    dal[CART_DAL.getCurrentCartByUserId],
+    [userId]
+  );
+
+  if (
+    !currentCart?.rowCount ||
+    currentCart.rowCount === 0 ||
+    currentCart.rows[0].id !== cartId
+  ) {
+    logger.error("❌ Cart not found for user:", { userId, cartId });
+    throw new Error(CART_ERRORS.UNAUTHORIZED);
+  }
 
   const updated = await safeQuery<CART_UPDATED_CAMEL_DTO>(
     dal[CART_DAL.updateItem],

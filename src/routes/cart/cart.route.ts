@@ -15,6 +15,7 @@ import {
   getUserCartParams,
   itemCartIdParams,
   updateItemCartBody,
+  updateItemCartParams,
 } from "./cart.validator";
 
 const router = express.Router();
@@ -27,7 +28,7 @@ router
   .route("/cart/:cartId/product/:productId")
   .patch(
     requireAuth,
-    validateData({ body: updateItemCartBody }),
+    validateData({ body: updateItemCartBody, params: updateItemCartParams }),
     updateItemAction
   )
   .delete(

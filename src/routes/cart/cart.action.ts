@@ -36,7 +36,7 @@ export const addItemAction = async (
       return;
     }
 
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: CART_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -46,13 +46,14 @@ export const updateItemAction = async (
 ): Promise<void> => {
   logger.info("📝 Updating cart item:", {
     userId: req.userId,
-    itemCartId: req.body.productId,
-    update: req.body,
+    itemCartId: req.params.productId,
+    quantity: req.body.quantity,
   });
   try {
     const updatedItem = await updateCartService(
-      req.body.cartId,
-      req.body.productId,
+      req.userId!,
+      req.params.cartId,
+      req.params.productId,
       req.body.quantity
     );
 
@@ -97,7 +98,7 @@ export const deleteItemAction = async (
       return;
     }
 
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: CART_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -118,7 +119,7 @@ export const getSummaryByUserIdAction = async (
       message: error instanceof Error ? error.message : String(error),
     });
 
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: CART_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -139,6 +140,6 @@ export const getItemsByUserIdAction = async (
       message: error instanceof Error ? error.message : String(error),
     });
 
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: CART_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };
