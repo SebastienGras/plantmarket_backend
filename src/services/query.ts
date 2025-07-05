@@ -47,3 +47,11 @@ export async function safeQuery<T extends Record<string, unknown>>(
     throw pgErr;
   }
 }
+
+export async function safeQueryOne<T extends Record<string, unknown>>(
+  query: string,
+  params: unknown[] = []
+): Promise<CamelCasedProperties<T> | null> {
+  const result = await safeQuery<T>(query, params);
+  return result?.rows[0] ?? null;
+}

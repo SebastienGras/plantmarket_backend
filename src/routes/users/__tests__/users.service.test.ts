@@ -10,9 +10,9 @@ describe("getUserByIdService", () => {
   });
 
   it("returns user if found", async () => {
-    vi.spyOn(safeQueryModule, "safeQuery").mockResolvedValueOnce({
-      rows: [{ id: "123", email: "test@example.com" }],
-      rowCount: 1,
+    vi.spyOn(safeQueryModule, "safeQueryOne").mockResolvedValueOnce({
+      id: "123",
+      email: "test@example.com",
     });
 
     const user = await getUserByIdService("123");
@@ -20,10 +20,7 @@ describe("getUserByIdService", () => {
   });
 
   it("should throw USER_NOT_FOUND if user does not exist", async () => {
-    vi.spyOn(safeQueryModule, "safeQuery").mockResolvedValueOnce({
-      rows: [],
-      rowCount: 0,
-    });
+    vi.spyOn(safeQueryModule, "safeQueryOne").mockResolvedValueOnce(null);
 
     await expect(getUserByIdService("999")).rejects.toThrow(
       USERS_ERRORS.USER_NOT_FOUND
@@ -41,10 +38,7 @@ describe("updateUserByIdService", () => {
     ).rejects.toThrow(USERS_ERRORS.UNAUTHORIZED);
   });
   it("should throw USER_NOT_FOUND if user does not exist", async () => {
-    vi.spyOn(safeQueryModule, "safeQuery").mockResolvedValueOnce({
-      rows: [],
-      rowCount: 0,
-    });
+    vi.spyOn(safeQueryModule, "safeQueryOne").mockResolvedValueOnce(null);
 
     await expect(
       updateUserByIdService("123", "123", { firstname: "New Name" })
@@ -52,9 +46,9 @@ describe("updateUserByIdService", () => {
   });
 
   it("should update user if authorized", async () => {
-    vi.spyOn(safeQueryModule, "safeQuery").mockResolvedValueOnce({
-      rows: [{ id: "123", firstname: "New Name" }],
-      rowCount: 1,
+    vi.spyOn(safeQueryModule, "safeQueryOne").mockResolvedValueOnce({
+      id: "123",
+      firstname: "New Name",
     });
 
     const updatedUser = await updateUserByIdService("123", "123", {

@@ -16,7 +16,10 @@ export type PRODUCT_DTO = {
 
 export type PRODUCT_CAMEL_DTO = CamelCasedProperties<PRODUCT_DTO>;
 
-export type PRODUCTS_CAMEL_WITH_CATEGORY_DTO = PRODUCT_CAMEL_DTO & {
-  categoryName: string;
-  subcategoryName: string;
+export type PRODUCTS_WITH_CATEGORY_DTO = PRODUCT_DTO & {
+  category_name: string;
+  subcategory_name: string;
 };
+
+export type PRODUCTS_CAMEL_WITH_CATEGORY_DTO =
+  CamelCasedProperties<PRODUCTS_WITH_CATEGORY_DTO>;

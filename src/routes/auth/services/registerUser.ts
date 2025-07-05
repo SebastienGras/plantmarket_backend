@@ -1,7 +1,7 @@
-import type { USER_CAMEL_DTO } from "@models/users";
+import type { USER_CAMEL_DTO, USER_DTO } from "@models/users";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
-import { safeQuery } from "@services/query";
+import { safeQueryOne } from "@services/query";
 import * as bcrypt from "bcrypt";
 
 import { AUTH_DAL, AUTH_ERRORS } from "../auth.constant";
@@ -20,14 +20,14 @@ const registerUserService = async (
     throw new Error(AUTH_ERRORS.PASSWORD_MISMATCH);
   }
 
-  const result = await safeQuery<USER_CAMEL_DTO>(
+  const result = await safeQueryOne<USER_DTO>(
     dal[AUTH_DAL.registerUser],
     values
   );
   if (!result) {
     throw new Error("Query result is null");
   }
-  return result.rows[0];
+  return result;
 };
 
 export { registerUserService };
