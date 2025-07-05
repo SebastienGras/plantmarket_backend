@@ -34,6 +34,7 @@ const getProductsListingQuery = z.object({
     .transform((val) => val === "true" || val === true),
   categoryId: z.string().min(1, "Category ID is required").optional(),
   subcategoryId: z.string().min(1, "Subcategory ID is required").optional(),
+  notSellerId: z.string().optional(),
   minPrice: z
     .number()
     .nonnegative("Minimum price must be a non-negative number")
@@ -72,7 +73,7 @@ export {
   addProductBody,
   getProductsListingQuery,
   getUserProductsParams,
-  updateProductBody,
   productIdParams,
+  updateProductBody,
 };
 export type AddProductBodyInput = z.infer<typeof addProductBody>;

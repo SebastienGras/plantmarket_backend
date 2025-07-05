@@ -14,7 +14,8 @@ WHERE p.actif = $1::boolean
     $6::text IS NULL
     OR p.title ILIKE '%' || $6 || '%'
     OR p.description ILIKE '%' || $6 || '%'
-  );
+  )
+  AND ($7::uuid IS NULL OR p.seller_id != $7);
 -- ORDER BY
 --   CASE
 --     WHEN $6 = 'price' AND $7 = 'asc' THEN p.price
