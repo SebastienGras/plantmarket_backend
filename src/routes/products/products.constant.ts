@@ -36,6 +36,7 @@ export const PRODUCTS_SEARCH_FIELDS = [
   "minPrice",
   "maxPrice",
   "search",
+  "notSellerId",
 ] as const;
 
 export type ProductsErrors = typeof PRODUCTS_ERRORS;
