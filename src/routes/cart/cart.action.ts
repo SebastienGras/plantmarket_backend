@@ -9,7 +9,7 @@ import {
   deleteItemService,
   getItemsByUserIdService,
   getSummaryByUserIdService,
-  updateCartService,
+  updateItemService,
 } from "./cart.service";
 
 export const addItemAction = async (
@@ -50,7 +50,7 @@ export const updateItemAction = async (
     quantity: req.body.quantity,
   });
   try {
-    const updatedItem = await updateCartService(
+    const updatedItem = await updateItemService(
       req.userId!,
       req.params.cartId,
       req.params.productId,
@@ -78,16 +78,20 @@ export const deleteItemAction = async (
   req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
-  logger.info("🗑️ Removing cart item:", {
-    userId: req.userId,
-    itemCartId: req.params.itemCartId,
+  const { cartId, productId } = req.params;
+  const userId = req.userId;
+
+  logger.info("🗑️ Deleting cart item:", {
+    userId: userId,
+    cartId: cartId,
+    producId: productId,
   });
 
   try {
-    await deleteItemService(req.userId!, req.params.itemCartId);
+    const deletedItem = await deleteItemService(userId!, cartId, productId);
 
-    logger.info("✅ Cart item deleted:", { itemCartId: req.params.itemCartId });
-    res.status(204).send();
+    logger.info("✅ Cart item deleted:", deletedItem!);
+    res.status(200).json(deletedItem);
   } catch (error) {
     logger.error("❌ Failed to delete cart item:", {
       message: error instanceof Error ? error.message : String(error),
@@ -95,6 +99,11 @@ export const deleteItemAction = async (
 
     if (isErrorWithMessage(error, CART_ERRORS.ITEM_NOT_FOUND)) {
       res.status(404).json({ error: CART_ERRORS.ITEM_NOT_FOUND });
+      return;
+    }
+
+    if (isErrorWithMessage(error, CART_ERRORS.UNAUTHORIZED)) {
+      res.status(403).json({ error: CART_ERRORS.UNAUTHORIZED });
       return;
     }
 

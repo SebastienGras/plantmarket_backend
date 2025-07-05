@@ -42,3 +42,12 @@ export type CART_UPDATED_DTO = {
 };
 
 export type CART_UPDATED_CAMEL_DTO = CamelCasedProperties<CART_UPDATED_DTO>;
+
+export type CART_DELETED_DTO = {
+  id: string;
+  cart_id: string;
+  product_id: string;
+  quantity: number;
+};
+
+export type CART_DELETED_CAMEL_DTO = CamelCasedProperties<CART_DELETED_DTO>;
