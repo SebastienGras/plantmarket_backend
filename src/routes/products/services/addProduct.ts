@@ -1,7 +1,7 @@
 import type { PRODUCT_CAMEL_DTO, PRODUCT_DTO } from "@models/products";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
-import { safeQuery } from "@services/query";
+import { safeQueryOne } from "@services/query";
 
 import { PRODUCTS_DAL, PRODUCTS_ERRORS } from "../products.constant";
 
@@ -14,7 +14,7 @@ export const addProductService = async (
     productData,
   });
 
-  const newProduct = await safeQuery<PRODUCT_DTO>(
+  const newProduct = await safeQueryOne<PRODUCT_DTO>(
     dal[PRODUCTS_DAL.addProduct],
     [
       productData.title,
@@ -28,13 +28,13 @@ export const addProductService = async (
     ]
   );
 
-  if (!newProduct?.rowCount || newProduct.rowCount === 0) {
+  if (!newProduct) {
     throw new Error(PRODUCTS_ERRORS.PRODUCT_NOT_CREATED);
   }
 
   logger.info("✅ Product added successfully:", {
-    newProduct: newProduct.rows[0],
+    newProduct: newProduct,
   });
 
-  return newProduct.rows[0];
+  return newProduct;
 };

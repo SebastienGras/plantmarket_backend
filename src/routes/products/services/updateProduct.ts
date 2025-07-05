@@ -1,7 +1,7 @@
-import type { PRODUCT_CAMEL_DTO } from "@models/products";
+import type { PRODUCT_CAMEL_DTO, PRODUCT_DTO } from "@models/products";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
-import { safeQuery } from "@services/query";
+import { safeQueryOne } from "@services/query";
 import { partialUpdateForQuery } from "@utils/query";
 
 import {
@@ -21,19 +21,19 @@ export const updateProductService = async (
     updateData,
   });
 
-  const product = await safeQuery<PRODUCT_CAMEL_DTO>(
+  const product = await safeQueryOne<PRODUCT_DTO>(
     dal[PRODUCTS_DAL.getProductById],
     [productId]
   );
 
-  if (!product || !product.rows || product.rows.length === 0) {
+  if (!product) {
     logger.error("❌ Product not found:", {
       productId,
     });
     throw new Error(PRODUCTS_ERRORS.PRODUCT_NOT_FOUND);
   }
 
-  if (userId !== product.rows[0].sellerId) {
+  if (userId !== product.sellerId) {
     logger.error("❌ Unauthorized update attempt:", {
       userId,
       productId,
@@ -46,12 +46,12 @@ export const updateProductService = async (
     updateData
   );
 
-  const updatedProduct = await safeQuery<PRODUCT_CAMEL_DTO>(
+  const updatedProduct = await safeQueryOne<PRODUCT_DTO>(
     dal[PRODUCTS_DAL.updateProduct],
     [productId, ...valuesToUpdate]
   );
 
-  if (!updatedProduct?.rowCount || updatedProduct.rowCount === 0) {
+  if (!updatedProduct) {
     logger.error("❌ Product not updated:", {
       productId,
     });
@@ -59,8 +59,8 @@ export const updateProductService = async (
   }
 
   logger.info("✅ Product updated successfully:", {
-    updatedProduct: updatedProduct.rows[0],
+    updatedProduct: updatedProduct,
   });
 
-  return updatedProduct.rows[0];
+  return updatedProduct;
 };

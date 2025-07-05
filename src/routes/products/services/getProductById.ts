@@ -1,7 +1,10 @@
-import type { PRODUCTS_CAMEL_WITH_CATEGORY_DTO } from "@models/products";
+import type {
+  PRODUCTS_CAMEL_WITH_CATEGORY_DTO,
+  PRODUCTS_WITH_CATEGORY_DTO,
+} from "@models/products";
 import { dal } from "@services/dal";
 import { logger } from "@services/logger";
-import { safeQuery } from "@services/query";
+import { safeQueryOne } from "@services/query";
 
 import { PRODUCTS_DAL, PRODUCTS_ERRORS } from "../products.constant";
 
@@ -12,18 +15,18 @@ export const getProductByIdService = async (
     productId,
   });
 
-  const product = await safeQuery<PRODUCTS_CAMEL_WITH_CATEGORY_DTO>(
+  const product = await safeQueryOne<PRODUCTS_WITH_CATEGORY_DTO>(
     dal[PRODUCTS_DAL.getProductById],
     [productId]
   );
-  if (!product || !product.rows || product.rows.length === 0) {
+  if (!product) {
     logger.error("❌ Product not found:", {
       productId,
     });
     throw new Error(PRODUCTS_ERRORS.PRODUCT_NOT_FOUND);
   }
   logger.info("✅ Product retrieved successfully:", {
-    product: product.rows[0],
+    product: product,
   });
-  return product.rows[0];
+  return product;
 };
