@@ -102,6 +102,11 @@ export const deleteItemAction = async (
       return;
     }
 
+    if (isErrorWithMessage(error, CART_ERRORS.UNAUTHORIZED)) {
+      res.status(403).json({ error: CART_ERRORS.UNAUTHORIZED });
+      return;
+    }
+
     res.status(500).json({ error: CART_ERRORS.INTERNAL_SERVER_ERROR });
   }
 };

@@ -81,7 +81,6 @@ export const deleteItemService = async (
     productId,
   });
 
-  // Vérification que le panier appartient bien à l'utilisateur
   const currentCart = await safeQuery(dal[CART_DAL.getCurrentCartByUserId], [
     userId,
   ]);
@@ -98,7 +97,6 @@ export const deleteItemService = async (
     throw new Error(CART_ERRORS.UNAUTHORIZED);
   }
 
-  // Suppression de l'article
   const deletedItem = await safeQuery<CART_DELETED_CAMEL_DTO>(
     dal[CART_DAL.deleteItem],
     [cartId, productId]
@@ -112,33 +110,6 @@ export const deleteItemService = async (
   logger.info("✅ Cart item deleted:", deletedItem.rows[0]);
   return deletedItem.rows[0];
 };
-
-// export const deleteItemService = async (
-//   userId: string,
-//   itemCartId: string
-// ): Promise<void> => {
-//   logger.info("🗑 deleteItemFromCartService called:", { userId, itemCartId });
-
-//   const item = await safeQuery<CART_CAMEL_DTO>(dal[CART_DAL.getItemById], [
-//     itemCartId,
-//   ]);
-
-//   if (!item?.rowCount || item.rows.length === 0) {
-//     throw new Error(CART_ERRORS.ITEM_NOT_FOUND);
-//   }
-
-//   if (item.rows[0].userId !== userId) {
-//     throw new Error("Unauthorized");
-//   }
-
-//   const deleted = await safeQuery(dal[CART_DAL.deleteItem], [itemCartId]);
-
-//   if (!deleted?.rowCount || deleted.rowCount === 0) {
-//     throw new Error(CART_ERRORS.ITEM_NOT_FOUND);
-//   }
-
-//   logger.info("✅ Cart item deleted successfully");
-// };
 
 export const getSummaryByUserIdService = async (
   userId: string
